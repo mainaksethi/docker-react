@@ -7,3 +7,15 @@ before_install:
     - docker build -t mainak/docker-react -f Dockerfile.dev .
 script:
     - docker run -e CI=true mainak/docker-react npm run test -- --coverage
+deploy:
+    provider: elasticbeanstalk
+    region: "us-east-2"
+    app: "docker-web"
+    env: "DockerWeb-env"
+    bucket_name: "elasticbeanstalk-us-east-2-772789742607"
+    bucket_path: "docker-web"
+    on: 
+      branch: master
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key:
+        secure: "$AWS_SECRET_KEY"
